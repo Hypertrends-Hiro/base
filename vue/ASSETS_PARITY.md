@@ -66,6 +66,8 @@ Copy/mapping plan: React → Vue. Explicit filenames and intended paths.
 
 **Total assets: 46**
 
+**Audit (Phase 2):** All 46 React `react/src/assets` filenames are present in `vue/src/assets`. Vue has 47 files total (46 copied + `vue.svg`). No missing filenames.
+
 ## react/public (other)
 
 | React path | Vue path |
