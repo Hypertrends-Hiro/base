@@ -1,6 +1,33 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import UiCollapsible from '@/components/ui/collapsible.vue'
+
+const rightColRef = ref<HTMLElement | null>(null)
+const intakeSectionRef = ref<HTMLElement | null>(null)
+const navOffset = ref(0)
+
+function updateNavOffset() {
+  if (!rightColRef.value || !intakeSectionRef.value) return
+  const rightTop = rightColRef.value.getBoundingClientRect().top
+  const intakeTop = intakeSectionRef.value.getBoundingClientRect().top
+  navOffset.value = Math.max(0, intakeTop - rightTop)
+}
+
+let resizeObserver: ResizeObserver | null = null
+onMounted(() => {
+  nextTick(() => {
+    updateNavOffset()
+    if (rightColRef.value) {
+      resizeObserver = new ResizeObserver(updateNavOffset)
+      resizeObserver.observe(rightColRef.value)
+    }
+  })
+  window.addEventListener('resize', updateNavOffset)
+})
+onUnmounted(() => {
+  resizeObserver?.disconnect()
+  window.removeEventListener('resize', updateNavOffset)
+})
 
 const intakeCategories = [
   'Demographics',
@@ -96,7 +123,10 @@ const deleteAccountOpen = ref(false)
         <h1 class="font-heading text-2xl tracking-tight text-foreground mb-6 text-right">
           KWILT<span class="text-[10px] align-super">™</span> profile
         </h1>
-        <nav class="flex flex-col gap-0.5">
+        <nav
+          class="flex flex-col gap-0.5"
+          :style="{ marginTop: navOffset > 0 ? `${navOffset - 24}px` : 0 }"
+        >
           <button
             v-for="cat in intakeCategories"
             :key="cat"
@@ -111,7 +141,7 @@ const deleteAccountOpen = ref(false)
         </nav>
       </aside>
 
-      <div class="flex-1 space-y-12 min-w-0">
+      <div ref="rightColRef" class="flex-1 space-y-12 min-w-0">
         <section>
           <div class="flex items-center justify-between">
             <h2 class="font-heading text-xl tracking-tight text-foreground mb-4">Account settings</h2>
@@ -120,6 +150,9 @@ const deleteAccountOpen = ref(false)
             </button>
           </div>
           <div class="bg-card rounded-md p-6 shadow-soft relative">
+            <button type="button" class="absolute top-4 right-4 text-muted-foreground hover:text-foreground" aria-label="Edit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" /><path d="m15 5 4 4" /></svg>
+            </button>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
               <div v-for="f in accountFields" :key="f.label" class="py-3 border-b border-border">
                 <p class="text-[10px] font-medium tracking-[0.15em] text-muted-foreground">{{ f.label }}</p>
@@ -132,10 +165,12 @@ const deleteAccountOpen = ref(false)
               <template #trigger>
                 <div class="flex w-full items-center justify-between py-4 border-b border-border text-left cursor-pointer">
                   <span class="text-xs font-medium tracking-[0.15em] text-foreground">CHANGE PASSWORD</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 text-muted-foreground"><path d="m9 18 6-6-6-6" /></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 text-muted-foreground transition-transform" :class="changePasswordOpen && 'rotate-90'"><path d="m9 18 6-6-6-6" /></svg>
                 </div>
               </template>
-              <p class="py-3 text-sm text-muted-foreground">Content coming soon.</p>
+              <div class="py-3 text-sm text-muted-foreground">
+                <p class="text-sm">Content coming soon.</p>
+              </div>
             </UiCollapsible>
             <UiCollapsible v-model="notifOpen">
               <template #trigger>
@@ -144,22 +179,27 @@ const deleteAccountOpen = ref(false)
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 text-muted-foreground transition-transform" :class="notifOpen && 'rotate-90'"><path d="m9 18 6-6-6-6" /></svg>
                 </div>
               </template>
-              <p class="py-3 text-sm text-muted-foreground">Content coming soon.</p>
+              <div class="py-3 text-sm text-muted-foreground">
+                <p class="text-sm">Content coming soon.</p>
+              </div>
             </UiCollapsible>
             <UiCollapsible v-model="deleteAccountOpen">
               <template #trigger>
                 <div class="flex w-full items-center justify-between py-4 border-b border-border text-left cursor-pointer">
                   <span class="text-xs font-medium tracking-[0.15em] text-foreground">DELETE ACCOUNT</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 text-muted-foreground"><path d="m9 18 6-6-6-6" /></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 text-muted-foreground transition-transform" :class="deleteAccountOpen && 'rotate-90'"><path d="m9 18 6-6-6-6" /></svg>
                 </div>
               </template>
-              <p class="py-3 text-sm text-muted-foreground">Content coming soon.</p>
+              <div class="py-3 text-sm text-muted-foreground">
+                <p class="text-sm">Content coming soon.</p>
+              </div>
             </UiCollapsible>
           </div>
         </section>
 
-        <section>
-          <div class="flex gap-2 overflow-x-auto pb-3 mb-4 md:hidden">
+        <section ref="intakeSectionRef">
+          <!-- Mobile: intake category selector (match React -mx-4 px-4 scrollbar-none) -->
+          <div class="flex gap-2 overflow-x-auto pb-3 -mx-4 px-4 scrollbar-none mb-4 md:hidden">
             <button
               v-for="cat in intakeCategories"
               :key="cat"
@@ -171,6 +211,7 @@ const deleteAccountOpen = ref(false)
               {{ cat }}
             </button>
           </div>
+          <!-- Intake card: exact React structure (FieldGrid) -->
           <div class="bg-card rounded-md p-6 shadow-soft" style="min-height: 320px">
             <p class="text-xs font-medium tracking-[0.15em] text-muted-foreground mb-3">{{ activeIntake?.toUpperCase() ?? '' }}</p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
