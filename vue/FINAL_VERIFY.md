@@ -46,3 +46,30 @@ BASE_URL=http://localhost:5173 node scripts/verify-routes.mjs
 ```
 
 Last run: **23/23 routes passed** (all paths return expected page content or valid redirect).
+
+## Visual / style checks (audit scripts)
+
+### Copy audit (zero invented copy)
+
+```bash
+npm run audit:copy
+```
+
+- **Expected**: Exit code 0; `vue/audit-copy.json` has `inventedInVue: []`.
+- **If diffs**: Remove or replace any string listed in `inventedInVue` so it exists in React or remove the phrase. Re-run until exit 0.
+
+### Component parity
+
+```bash
+npm run audit:components
+```
+
+- **Expected**: Exit code 0 (or acceptable DIFFs documented in `AUDIT_COMPONENT_PARITY.md`).
+- **If diffs**: Add missing sections/components or document acceptable differences (e.g. Lucide vs inline SVG).
+
+### Style parity (Playwright)
+
+1. Start Vue dev server: `npm run dev`.
+2. Run: `npm run audit:styles` → writes `vue/audit-styles.json`.
+3. (Optional) Start React app, then: `SAVE_BASELINE=1 BASE_URL=http://localhost:5174 node scripts/audit-styles.mjs` → writes `vue/audit-styles-react.json`. Diff the two files.
+- **Expected**: Same (or tolerated) computed styles for main/header/sidebar/primary button/card. If DIFF: add missing Tailwind classes per `AUDIT_STYLES_PARITY.md`.

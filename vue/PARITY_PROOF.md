@@ -4,6 +4,16 @@ Each ported page is verified against PAGES_PARITY.md. Strings must exist verbati
 
 ---
 
+## Post-audit fixes (full 1:1 parity audit)
+
+- **Removed invented copy**: Default Vite template text in `HelloWorld.vue` and `HomeView.vue` (replaced with minimal "KWILT" / prop-only content). "Meal cards for the selected day (local fixture)." removed from `MealPlanSection.vue`.
+- **TreatmentsView**: assessment/instructions for the two subscription treatments now use the exact long Lorem ipsum block from React; newRxTreatment keeps "Pending provider consultation..." and "Please schedule your virtual consultation...".
+- **MealPlanSection**: Replaced placeholder text with fixture-driven meal cards (Day 1 Breakfast from React: "Avocado Toast with Poached Egg", "High in healthy fats and fiber to stabilize morning blood sugar.", Ingredients/Instructions/Nutrition). Footer disclaimer text already matched React.
+- **No missing classes/tokens** identified for key sections; layout chrome (AppShell, DashboardLayout, sidebar) already aligned per AUDIT_LAYOUT_PARITY.md.
+- **Copy audit**: `npm run audit:copy` produces 0 invented strings; "Content coming soon." in Profile exists in both React and Vue.
+
+---
+
 ## Batch 1
 
 ### Page: Welcome

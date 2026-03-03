@@ -34,8 +34,8 @@ const activeTreatments: Treatment[] = [
     viewAction: 'View treatment plan',
     patient: { name: 'Mike Tyson', dob: '12/29/1994', gender: 'Male', email: 'mtyson@gmail.com' },
     provider: { name: 'Kate Cordisco, NP', address: '13280 Evening Creek Drive South, Ste 225, San Diego, CA 92128', supervisingPhysician: 'Brian Crenshaw, MD', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop' },
-    assessment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    instructions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    assessment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    instructions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
   },
   {
     name: 'Semaglutide',
@@ -46,8 +46,8 @@ const activeTreatments: Treatment[] = [
     viewAction: 'Close treatment plan',
     patient: { name: 'Mike Tyson', dob: '12/29/1994', gender: 'Male', email: 'mtyson@gmail.com' },
     provider: { name: 'Kate Cordisco, NP', address: '13280 Evening Creek Drive South, Ste 225, San Diego, CA 92128', supervisingPhysician: 'Brian Crenshaw, MD', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop' },
-    assessment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    instructions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    assessment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    instructions: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
   },
 ]
 
