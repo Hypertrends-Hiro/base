@@ -1,4 +1,11 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import { useRoute, RouterLink } from 'vue-router'
+
+const route = useRoute()
+onMounted(() => {
+  console.error('404 Error: User attempted to access non-existent route:', route.path)
+})
 </script>
 
 <template>
@@ -6,7 +13,7 @@
     <div class="text-center">
       <h1 class="mb-4 text-4xl font-bold">404</h1>
       <p class="mb-4 text-xl text-muted-foreground">Oops! Page not found</p>
-      <router-link to="/" class="text-primary underline hover:text-primary/90">Return to Home</router-link>
+      <RouterLink to="/" class="text-primary underline hover:text-primary/90">Return to Home</RouterLink>
     </div>
   </div>
 </template>

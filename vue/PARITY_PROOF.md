@@ -457,6 +457,46 @@ Each ported page is verified against PAGES_PARITY.md. Strings must exist verbati
 
 ---
 
+## Batch 6
+
+### Page: Info
+
+- **Vue file:** `src/pages/InfoView.vue`
+- **Route:** `/info`
+- **Components used:** useScenarioStore, useRouter
+- **Assets used:** how-to-use-kwilt.png, nav-results.svg, nav-plan.svg, nav-treatments.svg, nav-lifestyle.svg, nav-settings.svg
+- **Visible strings check (exact, with file/line refs):**
+  - "How to use KWILT" — InfoView.vue line 43–44 (h1)
+  - "A quick guide to navigating your health portal and getting the most out of your membership." — InfoView.vue lines 46–47
+  - "Restart Tour" — InfoView.vue line 57 (button, shown when scenario === 'default-with-wizard')
+  - "Watch the walkthrough" — InfoView.vue line 71 (hero overlay)
+  - "Your portal at a glance" — InfoView.vue lines 77–78 (section heading)
+  - "Results", "Your Plan", "Treatments", "Lifestyle", "Settings & Profile" — InfoView.vue sections data (lines 14–18), rendered line 90
+  - "View your lab results, biomarker trends, and health scores.", "Access your personalized nutrition, supplement, exercise, and sleep recommendations.", "Browse and manage prescription therapies.", "Track your daily meals, get nutritional grades, and monitor eating patterns over time.", "Manage your account details, shipping addresses, payment methods, notification preferences, and referral program." — InfoView.vue sections descriptions (lines 14–18), rendered lines 91–92
+  - "Getting started tips" — InfoView.vue lines 100–101
+  - "01", "02", "03", "04" — InfoView.vue tips data (lines 21–24), rendered line 106
+  - "Start with your Dashboard — it gives you a snapshot of all your health scores and what needs attention first.", "Check your Results after each lab test to see updated biomarker levels and how they compare to your previous readings.", "Follow Your Plan daily — the nutrition and supplement recommendations update based on your latest results.", "Log meals in Lifestyle to get real-time feedback on your nutritional choices and track improvements." — InfoView.vue tips (lines 21–24), rendered line 109
+  - "Need more help? Reach out to your KWILT health coach through the dashboard or email support@kwilt.com." — InfoView.vue lines 116–117
+- **String presence:** All key strings from PAGES_PARITY.md for Info appear verbatim in `InfoView.vue`.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
+### Page: NotFound
+
+- **Vue file:** `src/pages/NotFoundView.vue`
+- **Route:** `/:pathMatch(.*)*` (catch-all)
+- **Components used:** useRoute, RouterLink
+- **Assets used:** None
+- **Visible strings check (exact, with file/line refs):**
+  - "404" — NotFoundView.vue line 17 (h1)
+  - "Oops! Page not found" — NotFoundView.vue line 18
+  - "Return to Home" — NotFoundView.vue line 19 (RouterLink)
+- **String presence:** All key strings from PAGES_PARITY.md for NotFound appear verbatim in `NotFoundView.vue`. Route logging: onMounted logs `404 Error: User attempted to access non-existent route: <path>` (line 8).
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
 ## Parity exceptions
 
 - **Batch 1:** Zero. All strings and assets match PAGES_PARITY.md; no invented copy.
@@ -464,3 +504,4 @@ Each ported page is verified against PAGES_PARITY.md. Strings must exist verbati
 - **Batch 3:** Zero. All strings and section flows match PAGES_PARITY.md and React; no invented copy.
 - **Batch 4:** Zero. All strings, assets, and layout match PAGES_PARITY.md and React; no invented copy.
 - **Batch 5:** Zero. All strings, assets, and layout match PAGES_PARITY.md and React; no invented copy.
+- **Batch 6:** Zero. All strings and assets match PAGES_PARITY.md and React; no invented copy.
