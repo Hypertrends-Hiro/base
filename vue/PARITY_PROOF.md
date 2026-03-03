@@ -237,8 +237,126 @@ Each ported page is verified against PAGES_PARITY.md. Strings must exist verbati
 
 ---
 
+## Batch 4
+
+### Page: Results
+
+- **Vue file:** `src/pages/ResultsView.vue`, `src/features/results/PillarRow.vue`, `src/features/results/BiomarkerSummary.vue`, `src/features/results/pillars-data.ts`, `src/components/results/BiomarkerCategories.vue`
+- **Route:** `/results`
+- **Components used:** PillarRow, BiomarkerSummary, BiomarkerCategories; useScenarioStore
+- **Assets used:** results-cta-hero.png
+- **Visible strings check (exact):**
+  - "KWILT™ longevity pillars" — ResultsView.vue line 32
+  - "Heart health", "Metabolic health", "Brain health", "Cancer prevention", "Bone and muscle care" — pillars-data.ts; ResultsView.vue pillarTitles
+  - "Evaluates your heart and blood vessels, including inflammation and cholesterol-related risks." — pillars-data.ts (Heart health subtitle)
+  - "Measures blood sugar regulation, fat metabolism, and body composition resilience." — pillars-data.ts (Metabolic health subtitle)
+  - "Lipid Panel (Total Chol, LDL, HDL, Triglycerides)", "ApoB – Total atherogenic particles", "Fasting Glucose", "HbA1c – Long-term blood sugar", "Insulin – Fasting level" — pillars-data.ts; BiomarkerCategories.vue
+  - "above", "below", "out" — statusLabel in pillars-data.ts / BiomarkerCategories (Above Range, Below Range, Out of Range)
+  - "Why it matters", "Lowered by", "Score is lowered by" — PillarRow.vue; pillars-data whyItMatters / loweredBy
+  - "Awaiting lab results", "—/20" — ResultsView.vue blank state
+  - "Biomarkers", "Complete your lab work to see your biomarker results and longevity pillar scores." — ResultsView.vue
+  - "108 Biomarkers", "Download results", "in range", "out of range", "improving" — BiomarkerSummary.vue
+  - "All Biomarkers" — BiomarkerCategories.vue
+  - "Live well today,", "for a better tomorrow." — ResultsView.vue CTA hero
+- **String presence:** All key strings from PAGES_PARITY.md for Results appear verbatim in the listed Vue files.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
+### Page: Plan
+
+- **Vue file:** `src/pages/PlanView.vue`
+- **Route:** `/plan`
+- **Components used:** UiCheckbox, UiButton
+- **Assets used:** plan-cta-hero.png
+- **Visible strings check (exact):**
+  - "Your KWILT plan" — PlanView.vue header
+  - "Clinician's notes", "Notes" — PlanView.vue button
+  - "Your plan will become more personalized once your lab results are available." — PlanView.vue isPreLab banner
+  - "Top Actions", "Today's Agenda" — PlanView.vue SLIDE_LABELS
+  - "Top actions across your six plans" — PlanView.vue
+  - "MUST DO", "ROUTINE", "PRO TIP" — PlanView.vue actions priority
+  - "Take Vitamin D3 supplement", "Your levels are below optimal range. Take 5000 IU daily with a fat-containing meal." — PlanView.vue actions[0]
+  - "30-min strength training", "Eat 30g protein at breakfast", "Wind-down routine by 10 PM", "Drink 3L of water today", "5-min mindfulness session" — PlanView.vue actions
+  - "Today's agenda", "MORNING", "MIDDAY", "EVENING" — PlanView.vue agenda
+  - "Nutrition", "Supplements", "Exercises", "Sleep", "Therapy", "Medical Intervention" — PAGES_PARITY; PlanView category titles: "Nutrition optimization", "Exercise & Movement", "Sleep optimization", "Diagnostics", "General Wellness", "Supplements"
+  - "Complete your health assessment to receive your personalized plan." — PlanView.vue blank state
+  - "Get the full picture.", "Take control." — PlanView.vue CTA hero
+  - "©2025 kwilthealth" — PlanView.vue footer
+- **String presence:** All key strings from PAGES_PARITY.md for Plan appear verbatim in `PlanView.vue`.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
+### Page: PlanDetail
+
+- **Vue file:** `src/pages/PlanDetailView.vue`, `src/components/plan/MealPlanSection.vue`
+- **Route:** `/plan/:categoryId`
+- **Components used:** MealPlanSection
+- **Assets used:** None
+- **Visible strings check (exact):**
+  - "Nutrition optimization", "Exercise & Movement", "Sleep optimization", "Diagnostics", "General Wellness", "Supplements" — PlanDetailView.vue categoryTitles
+  - "Personalized dietary recommendations based on your biomarker results and health goals." — PlanDetailView.vue categoryDescriptions (nutrition)
+  - "Cardiovascular and metabolic health", "Cancer prevention", "Brain health", "Bone and muscle care", "Additional insights" — PlanDetailView.vue pillarData titles
+  - "Your summary &amp; longevity pillars" — PlanDetailView.vue
+  - "Notes" — PlanDetailView.vue notes card
+  - "CLOSE→" — PlanDetailView.vue back button
+  - "out of range", "in range", "Biomarkers", "All markers in range" — PlanDetailView.vue pillar expandable content
+  - "7-Day Meal Plan: Focuses on heart-healthy fats, lean protein, and a variety of micronutrients for metabolic support." — MealPlanSection.vue
+  - "Today's agenda" — MealPlanSection.vue
+  - "©2025 kwilthealth" — MealPlanSection.vue
+- **String presence:** All key strings from PAGES_PARITY.md for PlanDetail appear verbatim in the listed Vue files.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
+### Page: Lifestyle
+
+- **Vue file:** `src/pages/LifestyleView.vue`
+- **Route:** `/lifestyle`
+- **Components used:** UiInput
+- **Assets used:** woman-relaxing.jpg, meal-pasta.jpg, meal-pizza.jpg, meal-rice-beans.jpg
+- **Visible strings check (exact):**
+  - "Track your meals" — LifestyleView.vue header
+  - "Add a meal" — LifestyleView.vue button
+  - "This week", "3 meals logged", "-70% from last week" — LifestyleView.vue stats
+  - "Average grade", "4.2/5", "Based on 3 analyzed meals" — LifestyleView.vue stats
+  - "Trend", "Improving", "Overall nutritional quality" — LifestyleView.vue stats
+  - "Quick action", "Add new meal", "Track nutrition" — LifestyleView.vue stats
+  - "Filter Meals", "Search meals" — LifestyleView.vue filter section
+  - "Last 30 days" — LifestyleView.vue timeframe
+  - "Your meals", "VIEW ALL→" — LifestyleView.vue section
+  - "JULY 19, 2025", "Pasta with meatballs", "Deep dish pizza", "Rice and beans" — LifestyleView.vue meals
+  - "B", "C", "A" — LifestyleView.vue meal grades
+  - "View details" — LifestyleView.vue
+  - "Small changes.", "Results that you can feel." — LifestyleView.vue CTA
+  - "©2025 kwilthealth" — LifestyleView.vue footer
+- **String presence:** All key strings from PAGES_PARITY.md for Lifestyle appear verbatim in `LifestyleView.vue`.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
+### Page: Profile
+
+- **Vue file:** `src/pages/ProfileView.vue`
+- **Route:** `/profile`
+- **Components used:** UiCollapsible
+- **Assets used:** None
+- **Visible strings check (exact):**
+  - "KWILT™ profile" — ProfileView.vue header
+  - "Demographics", "Health Goals and Motivation", "Medical History and Current Health", "Medications and Supplements", "Lifestyle and Habits", "Substance Use", "Subjective Symptoms and Wellness", "Biometrics and Measurements", "Wearables and Tracking" — ProfileView.vue intakeCategories
+  - "Account settings", "Log out" — ProfileView.vue
+  - "LEGAL NAME", "BIOLOGICAL SEX", "EMAIL", "DATE OF BIRTH", "ADDRESS", "PHONE NUMBER" — ProfileView.vue accountFields labels
+  - "Elisa George", "Female", "05/05/1985", "123 Wellness Ave, Austin TX 78701", "(512) 555-0198", "elisa.george@email.com" — ProfileView.vue accountFields values
+  - "CHANGE PASSWORD", "NOTIFICATION PREFERENCES", "DELETE ACCOUNT" — ProfileView.vue collapsible rows
+- **String presence:** All key strings from PAGES_PARITY.md for Profile appear verbatim in `ProfileView.vue`.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
 ## Parity exceptions
 
 - **Batch 1:** Zero. All strings and assets match PAGES_PARITY.md; no invented copy.
 - **Batch 2:** Zero. All strings and assets match PAGES_PARITY.md; no invented copy.
 - **Batch 3:** Zero. All strings and section flows match PAGES_PARITY.md and React; no invented copy.
+- **Batch 4:** Zero. All strings, assets, and layout match PAGES_PARITY.md and React; no invented copy.
