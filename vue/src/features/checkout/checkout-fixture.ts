@@ -1,13 +1,3 @@
-export interface CartItem {
-  name: string
-  category: string
-  image: string
-  plan: string
-  pricePerMonth: number
-  months: number
-  quantity: number
-}
-
 export const MOCK_USER = {
   firstName: 'Sandra',
   lastName: 'Mitchell',

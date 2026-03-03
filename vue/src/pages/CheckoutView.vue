@@ -2,30 +2,22 @@
 import { ref, computed } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import { useOrderThankYouStore } from '@/stores/orderThankYou'
+import { useCartStore } from '@/stores/cart'
 import UiInput from '@/components/ui/input.vue'
 import UiButton from '@/components/ui/button.vue'
 import UiCheckbox from '@/components/ui/checkbox.vue'
 import OrderSummary from '@/features/checkout/OrderSummary.vue'
-import {
-  MOCK_USER,
-  MOCK_ADDRESSES,
-  MOCK_PAYMENTS,
-  type CartItem,
-} from '@/features/checkout/checkout-fixture'
+import { MOCK_USER, MOCK_ADDRESSES, MOCK_PAYMENTS } from '@/features/checkout/checkout-fixture'
 import kwiltLogoDark from '@/assets/kwilt-logo-dark.png'
-import productSemaglutide from '@/assets/product-semaglutide.png'
-import productBalance from '@/assets/product-balance.png'
 
 const inputClass =
   'h-12 rounded-md border border-border bg-card px-4 text-sm text-foreground placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-primary focus-visible:outline-none'
 
 const router = useRouter()
 const orderThankYou = useOrderThankYouStore()
+const cartStore = useCartStore()
+const items = computed(() => cartStore.items)
 const step = ref<1 | 2 | 3>(2)
-const items = ref<CartItem[]>([
-  { name: 'Semaglutide', category: 'Weight Management', image: productSemaglutide, plan: 'MONTHLY', pricePerMonth: 200, months: 1, quantity: 1 },
-  { name: 'Balance Supplement Pack', category: 'Supplements', image: productBalance, plan: '6-month', pricePerMonth: 50, months: 6, quantity: 1 },
-])
 const selectedAddressId = ref(MOCK_ADDRESSES[0]!.id)
 const useNewAddress = ref(false)
 const shippingForm = ref({ street: '', city: '', state: '', zip: '', phone: '' })
@@ -37,24 +29,20 @@ const paymentForm = ref({ cardNumber: '', expiry: '', cvv: '', nameOnCard: '', s
 
 const selectedAddress = computed(() => MOCK_ADDRESSES.find((a) => a.id === selectedAddressId.value))
 
-function removeFromCart(name: string, plan: string) {
-  items.value = items.value.filter((i) => !(i.name === name && i.plan === plan))
-}
-
 function handleShippingContinue() {
   step.value = 3
 }
 
 function handleSubmitOrder(e: Event) {
   e.preventDefault()
-  const subtotal = items.value.reduce((sum, i) => sum + i.pricePerMonth * i.months * i.quantity, 0)
   const orderNumber = Math.floor(100000000 + Math.random() * 900000000).toString()
   orderThankYou.setState({
-    items: [...items.value],
-    subtotal,
+    items: [...cartStore.items],
+    subtotal: cartStore.subtotal,
     orderNumber,
     firstName: MOCK_USER.firstName,
   })
+  cartStore.clearCart()
   router.push('/thank-you')
 }
 </script>
@@ -222,7 +210,7 @@ function handleSubmitOrder(e: Event) {
       </div>
     </div>
     <div class="flex-1 bg-background px-8 py-8 md:px-12 md:py-10">
-      <OrderSummary :items="items" :on-remove="removeFromCart" />
+      <OrderSummary :items="items" :on-remove="cartStore.removeFromCart" />
     </div>
   </div>
 </template>

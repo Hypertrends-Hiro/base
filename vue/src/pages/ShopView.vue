@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useCartStore } from '@/stores/cart'
 import { cn } from '@/lib/utils'
 import Header from '@/components/home/Header.vue'
 import womanHairWind from '@/assets/woman-hair-wind.jpg'
@@ -46,8 +47,21 @@ const features = [
   { title: 'Track your progress', description: 'With biomarker data and insights right at your fingertips', image: appMockup },
 ]
 
+const cartStore = useCartStore()
 const activeCategory = ref('all')
 const filteredProducts = computed(() => products.filter((p) => p.categories.includes(activeCategory.value)))
+
+function addProductToCart(product: Product) {
+  const priceNum = parseInt(product.price.replace(/\D/g, ''), 10) || 0
+  cartStore.addToCart({
+    name: product.name,
+    category: product.categories[0] ?? 'all',
+    image: product.image,
+    plan: 'MONTHLY',
+    pricePerMonth: priceNum,
+    months: 1,
+  })
+}
 </script>
 
 <template>
@@ -97,7 +111,7 @@ const filteredProducts = computed(() => products.filter((p) => p.categories.incl
             <p class="text-sm text-muted-foreground">{{ product.subtitle }}</p>
             <p class="text-sm font-medium">{{ product.price }}</p>
           </div>
-          <button type="button" class="mt-3 w-full rounded-md bg-primary py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+          <button type="button" class="mt-3 w-full rounded-md bg-primary py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors" @click="addProductToCart(product)">
             Add to Plan
           </button>
         </div>

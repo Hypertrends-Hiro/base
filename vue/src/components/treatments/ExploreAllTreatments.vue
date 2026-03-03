@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useScenarioStore } from '@/stores/scenario'
+import { useCartStore } from '@/stores/cart'
 import productSemaglutide from '@/assets/product-semaglutide.png'
 import productBalance from '@/assets/product-balance.png'
 import productGlp1 from '@/assets/product-glp1.png'
@@ -32,11 +33,23 @@ const isDemoScenario = computed(() => {
 })
 const activeFilter = ref('Recommended')
 const visibleChips = computed(() => (isDemoScenario.value ? filterChips : ['Recommended', 'View All']))
+const cartStore = useCartStore()
 const filteredProducts = computed(() => {
   if (activeFilter.value === 'Recommended') return products.filter((p) => p.status === 'active' || p.status === 'available')
   if (activeFilter.value === 'View All') return products
   return products.filter((p) => p.category === activeFilter.value)
 })
+
+function addProductToCart(product: Product) {
+  cartStore.addToCart({
+    name: product.name,
+    category: product.category,
+    image: product.image,
+    plan: 'MONTHLY',
+    pricePerMonth: product.price,
+    months: 1,
+  })
+}
 </script>
 
 <template>
@@ -61,7 +74,7 @@ const filteredProducts = computed(() => {
         </div>
         <h3 class="font-heading text-lg font-medium mt-3">{{ product.name }}</h3>
         <p class="text-sm text-muted-foreground mt-1">${{ product.price }}/mo</p>
-        <button type="button" class="mt-3 w-full rounded-md bg-primary py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+        <button type="button" class="mt-3 w-full rounded-md bg-primary py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90" @click="addProductToCart(product)">
           Add to Plan
         </button>
       </div>

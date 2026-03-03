@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import type { CartItem } from './checkout-fixture'
+import type { CartItem } from '@/types/cart'
 
 const props = defineProps<{
   items: CartItem[]
