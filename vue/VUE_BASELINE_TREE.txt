@@ -1,0 +1,12 @@
+=== vue/src ===
+vue/src/App.vue
+vue/src/assets/vue.svg
+vue/src/components/HelloWorld.vue
+vue/src/main.ts
+vue/src/router/index.ts
+vue/src/stores/counter.ts
+vue/src/style.css
+vue/src/views/HomeView.vue
+vue/src/vite-env.d.ts
+=== vue/public ===
+vue/public/vite.svg

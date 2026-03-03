@@ -1,92 +1,84 @@
-# CONTRACT v2 (ABSOLUTE PARITY): PORT EVERYTHING React→Vue IDENTICAL
+# PHASE 0 — INVENTORY REPORT (MUST PROVIDE TREE + PARITY DOCS)
 
-You must port the ENTIRE React app into the Vue app. The result must be IDENTICAL in:
+You must generate inventory reports from BOTH folders:
 
-- routes
-- visible text/copy
-- images/assets/fonts
-- layout & styling (Tailwind classes/tokens)
-- component behaviors (modals/drawers/toasts/navigation)
-  This is NOT “similar”. This is strict parity.
+- `react/` (READ-ONLY)
+- `vue/` (target)
 
-## NON-NEGOTIABLE RULES
+## NON-NEGOTIABLE
 
-1. `react/` is READ-ONLY. Never modify it.
-2. DO NOT invent ANY copy, labels, or UI text. Every visible string must match React exactly.
-3. DO NOT invent layouts. Port the DOM structure and Tailwind classes as close as possible.
-4. DO NOT call network/APIs. Replace all API calls with deterministic mocks under `vue/src/services/mock/` until explicitly told otherwise.
-5. TypeScript strict. No `any`, no `@ts-ignore`, no disabling lint. If types are hard, create proper types under `vue/src/types/`.
-6. Port must be driven by an INVENTORY extracted from React. No coding before inventory is produced.
-7. Build gates: after each checkpoint, Vue must pass:
-   - `npm run build`
-   - `npm run typecheck` (use `vue-tsc --noEmit`)
-   - `npm run lint` (if configured)
+1. Do NOT implement any pages/components yet. This phase is INVENTORY ONLY.
+2. Output must be exact, complete, and verifiable (counts + file paths).
+3. Provide the report as plain text in the response (not screenshots).
 
-## REQUIRED OUTPUT ARTIFACTS (create these files in vue/)
+## TASKS (DO NOW)
 
-A) `vue/ROUTES_PARITY.md`
+### A) TREE REPORTS (REQUIRED)
 
-- A table listing every React route → corresponding Vue route + Vue file path.
-- Must cover ALL routes.
+1. Provide a full tree for `react/src/` and `react/public/` (depth enough to show all pages, components, contexts, hooks, assets).
+2. Provide a full tree for `vue/src/` and `vue/public/` (current baseline).
+3. Provide counts:
+   - total React pages under `react/src/pages/`
+   - total React UI primitives under `react/src/components/ui/`
+   - total React feature components under `react/src/components/` (excluding ui)
+   - total React contexts under `react/src/contexts/`
+   - total assets under `react/src/assets/` and fonts under `react/public/fonts/`
 
-B) `vue/PAGES_PARITY.md`
+### B) PARITY DOCS (CREATE THESE FILES IN `vue/`)
 
-- For each route/page: list required assets (images), key visible texts, and major components used.
+Create the following files under the `vue/` root directory:
 
-C) `vue/PORTING_PROGRESS.md`
+1. `vue/ROUTES_PARITY.md`
 
-- Checklist with percentage completion by route/page.
-- Every route must be marked: NOT STARTED / IN PROGRESS / DONE (build verified).
+- List EVERY file in `react/src/pages/*.tsx`
+- For each page:
+  - React file path
+  - Proposed Vue route path
+  - Target Vue page file path (to be created under `vue/src/pages/`)
+- Include a TOTAL count and it must match the number of files in `react/src/pages/`.
 
-D) `vue/src/services/mock/README.md`
+2. `vue/PAGES_PARITY.md`
+   For EACH page in ROUTES_PARITY:
 
-- Explain how mocks work and where to switch to real APIs later.
+- List key components it depends on (from `react/src/components/**`)
+- List assets it uses (from `react/src/assets/**` and/or `react/public/**`)
+- List 5–15 key visible strings that must match exactly.
 
-## MANDATORY WORK PLAN (DO NOT DEVIATE)
+3. `vue/UI_PRIMITIVES_LIST.md`
 
-Phase 0 — Inventory (STOP after this and report)
+- List EVERY file under `react/src/components/ui/`
+- Mark which ones are required for initial page rendering (Welcome/Landing2/Register/Auth/Dashboard)
+- Note the target location in Vue: `vue/src/components/ui/`
 
-1. Inspect React router config and list ALL routes and their page components.
-2. List all pages under `react/src/pages/`.
-3. List shared components under `react/src/components/` and contexts/hooks used globally.
-4. List assets and fonts used by pages (imports + public assets).
-5. Produce `ROUTES_PARITY.md` and `PAGES_PARITY.md` in Vue.
-   Do NOT implement pages yet. STOP and report findings.
+4. `vue/STATE_PARITY.md`
 
-Phase 1 — Foundation
+- Map:
+  - `react/src/contexts/CartContext.tsx` → `vue/src/stores/cart.ts`
+  - `react/src/contexts/ScenarioContext.tsx` → `vue/src/stores/scenario.ts`
+- List any other global state sources if found.
 
-1. Copy fonts/assets with identical paths (or create a mapping layer if paths differ).
-2. Port Tailwind config & global CSS to match React.
-3. Create AppShell + base layouts matching React.
-4. Add Router with ALL routes (placeholders allowed), so navigation never 404s.
-5. Add `typecheck` script using `vue-tsc --noEmit`.
-   Build must pass.
+5. `vue/ASSETS_PARITY.md`
 
-Phase 2 — Shared UI primitives
-Port minimal UI equivalents to `vue/src/components/ui/`:
-Button, Input, Card, Dialog, Drawer/Sheet, Toast/Toaster, Tabs, etc.
-Match behavior and props as needed for parity.
-Build must pass.
+- Provide the copy/mapping plan for:
+  - `react/public/fonts/*` → Vue location
+  - `react/src/assets/*` → Vue location
+- Explicitly list filenames and intended paths.
 
-Phase 3 — Page-by-page port (FULL COVERAGE)
-For EACH route in `ROUTES_PARITY.md`:
+6. `vue/PORTING_PROGRESS.md`
 
-1. Port the page UI to Vue: same copy, same images, same layout.
-2. Wire navigation actions to the correct routes.
-3. Replace any data needs with mock service calls (NO NETWORK).
-4. Update `PORTING_PROGRESS.md`.
-   After every 2–3 pages, STOP and ensure build/typecheck pass.
+- Checklist of ALL pages (NOT STARTED for all).
+- Include columns: Status, Build Verified (true/false), Notes.
 
-Phase 4 — State parity
-Port React contexts to Pinia stores where appropriate (cart, scenario).
-No global store sprawl.
+## STOP CONDITION
 
-Phase 5 — Hardening & parity verification
+After completing A + B, STOP. Do not proceed to Phase 1 or implement any UI.
 
-1. Ensure all routes render without errors.
-2. Ensure no copy mismatches on key pages (use the PAGES_PARITY checklist).
-3. Ensure build passes.
+## RESPONSE FORMAT (IMPORTANT)
 
-## START NOW
+At the end of your response, output:
 
-Execute Phase 0 (Inventory) only. Create the parity docs in Vue, then stop and report.
+- A short summary with counts
+- The list of created files (paths)
+- Any gaps/risks discovered
+
+Proceed.
