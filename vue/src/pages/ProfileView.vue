@@ -89,7 +89,10 @@ const deleteAccountOpen = ref(false)
 <template>
   <div class="w-full max-w-6xl mx-auto px-4 md:px-8 py-8">
     <div class="flex flex-col md:flex-row gap-8">
-      <div class="md:w-[200px] shrink-0 md:sticky md:top-8 md:self-start">
+      <!-- Left sidebar: visible from md (768px) up via Tailwind only -->
+      <aside
+        class="hidden md:block w-[200px] shrink-0 sticky top-8 self-start"
+      >
         <h1 class="font-heading text-2xl tracking-tight text-foreground mb-6 text-right">
           KWILT<span class="text-[10px] align-super">™</span> profile
         </h1>
@@ -98,7 +101,7 @@ const deleteAccountOpen = ref(false)
             v-for="cat in intakeCategories"
             :key="cat"
             type="button"
-            class="text-[11px] leading-tight font-medium text-right py-1 pr-4 relative transition-colors uppercase tracking-[0.08em]"
+            class="text-[11px] leading-tight font-medium text-right py-1 pr-4 relative transition-colors uppercase tracking-[0.08em] w-full"
             :class="activeIntake === cat ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'"
             @click="activeIntake = cat"
           >
@@ -106,7 +109,7 @@ const deleteAccountOpen = ref(false)
             {{ cat }}
           </button>
         </nav>
-      </div>
+      </aside>
 
       <div class="flex-1 space-y-12 min-w-0">
         <section>
