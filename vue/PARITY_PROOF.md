@@ -258,6 +258,9 @@ Each ported page is verified against PAGES_PARITY.md. Strings must exist verbati
   - "108 Biomarkers", "Download results", "in range", "out of range", "improving" — BiomarkerSummary.vue
   - "All Biomarkers" — BiomarkerCategories.vue
   - "Live well today,", "for a better tomorrow." — ResultsView.vue CTA hero
+- **Parity safety (both branches):**
+  - **Blank state (scenario ≠ 'none'):** `isBlank = computed(() => scenario !== 'none')` — ResultsView.vue line 13. When true, template uses `<template v-if="isBlank">` (line 32). Proof strings in this branch: pillar placeholders with "Awaiting lab results" (line 42), "—/20" (line 47), "Biomarkers" heading (line 54), "Complete your lab work to see your biomarker results and longevity pillar scores." (lines 56–58) — ResultsView.vue lines 33–60.
+  - **Full pillars state (scenario === 'none'):** When `isBlank` is false, template uses `<template v-else>` (line 63). Proof: `<PillarRow v-for="p in pillars"` (lines 65–70), `<BiomarkerSummary />` (line 72), `<BiomarkerCategories />` (line 73). Pillar titles/subtitles and marker strings come from `pillars` (pillars-data.ts) and PillarRow.vue ("Markers that influence this score", "Score is lowered by", "Why it matters").
 - **String presence:** All key strings from PAGES_PARITY.md for Results appear verbatim in the listed Vue files.
 - **Gates:** npm run typecheck PASS, npm run build PASS
 
@@ -305,6 +308,9 @@ Each ported page is verified against PAGES_PARITY.md. Strings must exist verbati
   - "7-Day Meal Plan: Focuses on heart-healthy fats, lean protein, and a variety of micronutrients for metabolic support." — MealPlanSection.vue
   - "Today's agenda" — MealPlanSection.vue
   - "©2025 kwilthealth" — MealPlanSection.vue
+- **Parity safety (route-driven category + pillar labels):**
+  - **Route-driven mapping:** `categoryId = computed(() => route.params.categoryId ?? '')` — PlanDetailView.vue line 49. `title = computed(() => categoryTitles[categoryId.value] ?? 'Plan Detail')` (line 50), `description = computed(() => categoryDescriptions[categoryId.value] ?? '')` (line 51). Category titles map: `categoryTitles` (lines 6–13): nutrition → "Nutrition optimization", exercise → "Exercise & Movement", sleep → "Sleep optimization", diagnostics → "Diagnostics", wellness → "General Wellness", supplements → "Supplements". Descriptions map: `categoryDescriptions` (lines 15–22). Rendered in template as `{{ title }}` (line 59), `{{ description }}` (line 60).
+  - **Pillar labels:** Each pillar card expandable content shows: "out of range" badge (line 107), "in range" badge (line 118), "Biomarkers" subheading (lines 111, 119), "All markers in range" / "No markers in range" fallbacks (lines 115, 126). Pillar titles/descriptions from `pillarData` (lines 33–38): "Cardiovascular and metabolic health", "Cancer prevention", "Brain health", "Bone and muscle care", "Additional insights".
 - **String presence:** All key strings from PAGES_PARITY.md for PlanDetail appear verbatim in the listed Vue files.
 - **Gates:** npm run typecheck PASS, npm run build PASS
 
@@ -354,9 +360,107 @@ Each ported page is verified against PAGES_PARITY.md. Strings must exist verbati
 
 ---
 
+## Batch 5
+
+### Page: Checkout
+
+- **Vue file:** `src/pages/CheckoutView.vue`, `src/features/checkout/OrderSummary.vue`, `src/features/checkout/checkout-fixture.ts`
+- **Route:** `/checkout`
+- **Components used:** UiInput, UiButton, UiCheckbox, OrderSummary; useOrderThankYouStore
+- **Assets used:** kwilt-logo-dark.png, product-semaglutide.png, product-balance.png
+- **Visible strings check (exact):**
+  - "KWILT" — CheckoutView.vue logo alt
+  - "Summary", "Discount or Gift Card Code", "Apply", "Subtotal:", "Shipping", "Total:" — OrderSummary.vue
+  - "Your cart is empty.", "Browse Treatments" — CheckoutView.vue empty state
+  - "1 of 3", "2 of 3", "3 of 3", "Info", "First Name", "Last Name", "Email", "Date of Birth", "Gender" — CheckoutView.vue step 1
+  - "Shipping", "Edit", "Saved Addresses", "Home", "Work", "Use new address", "Use saved address" — CheckoutView.vue step 2
+  - "Payment", "Visa ending in 4242", "Mastercard ending in 8888", "Add new card", "Billing same as shipping", "I agree to the terms and authorize the charge.", "Place order" — CheckoutView.vue step 3
+  - "Member Monthly Subscription", "Member", "-month Subscription", "for a", "-month supply" — OrderSummary.vue item copy
+- **String presence:** All key strings from PAGES_PARITY.md for Checkout appear verbatim in the listed Vue files.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
+### Page: Payment
+
+- **Vue file:** `src/pages/PaymentView.vue`
+- **Route:** `/payment`
+- **Components used:** SignupLayout, UiInput, UiButton
+- **Assets used:** None
+- **Visible strings check (exact):**
+  - "Become a KWILT™ member", "Annual Membership", "$449" — PaymentView.vue left slot
+  - "Unlock a deeper understanding of your health for $449 a year. Gain invaluable insights with our comprehensive Mega Panel, exploring over 100 key biomarkers. Cancel anytime. Membership auto renews each year." — PaymentView.vue
+  - "Secured with 256-bit SSL encryption" — PaymentView.vue
+  - "Cancel anytime. Membership auto renews each year.", "Payment Details", "First Name", "Last Name", "Card Number", "4433 2211 4433 2211", "Exp Date", "12/29", "Security Code", "123", "Address", "Start typing your address...", "City", "State", "ZIP", "Complete Purchase" — PaymentView.vue form
+- **String presence:** All key strings from PAGES_PARITY.md for Payment appear verbatim in `PaymentView.vue`.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
+### Page: ThankYou
+
+- **Vue file:** `src/pages/ThankYouView.vue`
+- **Route:** `/thank-you`
+- **Components used:** useScenarioStore, useOrderThankYouStore
+- **Assets used:** kwilt-logo-dark.png
+- **Visible strings check (exact):**
+  - "KWILT" — ThankYouView.vue logo alt
+  - "Order #", "Thank you", "!", "A confirmation email has been sent to your email with order and shipping details.", "Back to dashboard" — ThankYouView.vue left column
+  - "Summary", "Monthly Subscription", "-month Subscription", "for a", "-month supply" — ThankYouView.vue right column
+- **String presence:** All key strings from PAGES_PARITY.md for ThankYou appear verbatim in `ThankYouView.vue`.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
+### Page: ManageSubscription
+
+- **Vue file:** `src/pages/ManageSubscriptionView.vue`
+- **Route:** `/treatments/manage/:treatmentName`
+- **Components used:** UiInput, UiCheckbox, UiButton, UiDialog
+- **Assets used:** product-semaglutide.png, product-balance.png
+- **Visible strings check (exact):**
+  - "Subscription not found." — ManageSubscriptionView.vue when invalid param
+  - "Manage", "subscription", "Billing", "Shipping", "Payment", "Bills on:", "Ships on:", "Order Total:", "Next billing date", "Shipment", "Add to calendar", "Save", "Edit", "Card number", "Expiry", "CVV", "Name on card", "Billing same as shipping", "I agree to the terms and authorize the charge.", "Cancel", "Confirm", "Are you sure?", "Your subscription will remain active until the end of the current period.", "Cancel subscription" — ManageSubscriptionView.vue
+- **String presence:** All key strings from PAGES_PARITY.md for ManageSubscription appear verbatim in `ManageSubscriptionView.vue`.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
+### Page: OrderHistory
+
+- **Vue file:** `src/pages/OrderHistoryView.vue`
+- **Route:** `/order-history`
+- **Components used:** cn (lib)
+- **Assets used:** product-semaglutide.png, product-balance.png
+- **Visible strings check (exact):**
+  - "Order history", "CLOSE→", "ALL", "SHIPPED", "DELIVERED", "CANCELLED", "No orders found.", "Placed:", "Order #", "Order Total:", "Show order details", "Hide order details", "Sent to", "Paid with", "Summary", "Subtotal", "Shipping", "Discount", "Tax", "Total" — OrderHistoryView.vue
+  - "Semaglutide", "6-month Subscription – $200/mo", "1-month Subscription – $50/mo", "Balance Supplement Pack", "One-time purchase", "delivered", "shipped", "cancelled" — OrderHistoryView.vue mock data
+- **String presence:** All key strings from PAGES_PARITY.md for OrderHistory appear verbatim in `OrderHistoryView.vue`.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
+### Page: PatientPortal
+
+- **Vue file:** `src/pages/PatientPortalView.vue`, `src/components/treatments/BookAppointmentModal.vue`, `src/components/treatments/RescheduleModal.vue`, `src/components/treatments/CancelAppointmentModal.vue`
+- **Route:** `/patient-portal`
+- **Components used:** UiTabs, UiButton, BookAppointmentModal, RescheduleModal, CancelAppointmentModal
+- **Assets used:** None (avatars use external URL)
+- **Visible strings check (exact):**
+  - "Patient Portal", "Manage your health records and appointments", "+ Book New Appointment" — PatientPortalView.vue header
+  - "Upcoming", "Recent", "Visit summaries", "Appointments" — PatientPortalView.vue tabs/sections
+  - "Dr. Sarah Wilson", "Follow-up Visit", "Mid-point Lab Review", "Lab Review", "Routine Check-up", "New Treatment Consultation", "Confirmed", "Missed", "Completed" — appointment cards
+  - "Tuesday, March 10, 2026", "10:30 AM", "Reschedule", "Cancel", "View summary" — PatientPortalView.vue
+  - "Complaint", "Medications", "Lab results", "Care instructions", "Provider notes", "Next appointment" — visit summary detail
+- **String presence:** All key strings from PAGES_PARITY.md for PatientPortal appear verbatim in the listed Vue files.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
 ## Parity exceptions
 
 - **Batch 1:** Zero. All strings and assets match PAGES_PARITY.md; no invented copy.
 - **Batch 2:** Zero. All strings and assets match PAGES_PARITY.md; no invented copy.
 - **Batch 3:** Zero. All strings and section flows match PAGES_PARITY.md and React; no invented copy.
 - **Batch 4:** Zero. All strings, assets, and layout match PAGES_PARITY.md and React; no invented copy.
+- **Batch 5:** Zero. All strings, assets, and layout match PAGES_PARITY.md and React; no invented copy.
