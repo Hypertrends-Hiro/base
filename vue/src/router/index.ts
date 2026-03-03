@@ -28,6 +28,8 @@ const routes: RouteRecordRaw[] = [
   { path: '/login', name: 'login', component: LoginView },
   { path: '/register', name: 'register', component: RegisterView },
   { path: '/welcome', name: 'welcome', component: WelcomeView },
+  { path: '/assessment', name: 'assessment', component: AssessmentView },
+  { path: '/assessment-complete', name: 'assessment-complete', component: AssessmentCompleteView },
   {
     path: '/',
     component: AppShell,
@@ -45,9 +47,7 @@ const routes: RouteRecordRaw[] = [
       { path: 'info', name: 'info', component: InfoView },
       { path: 'order-history', name: 'order-history', component: OrderHistoryView },
       { path: 'patient-portal', name: 'patient-portal', component: PatientPortalView },
-      { path: 'assessment', name: 'assessment', component: AssessmentView },
       { path: 'payment', name: 'payment', component: PaymentView },
-      { path: 'assessment-complete', name: 'assessment-complete', component: AssessmentCompleteView },
       { path: 'checkout', name: 'checkout', component: CheckoutView },
       { path: 'thank-you', name: 'thank-you', component: ThankYouView },
     ],

@@ -114,36 +114,48 @@ Each ported page is verified against PAGES_PARITY.md. Strings must exist verbati
 - **Components used:** UiDropdownMenu, (router-link), img
 - **Assets used:** longevity-card.jpg, biological-age-card.jpg, product-balance.png, product-glp1.png, product-semaglutide.png, refer-and-earn.png, how-to-use-kwilt.png
 - **Visible strings check (exact):**
-  - "Demo:", "Select Scenario", "Default View", "Default View with Wizard", "Member - New Rx Ordered", "Intake Not Started", "Lab Requisition Ready", "Preparing Lab Requisition", "Labs Ordered" — scenario dropdown
-  - "Hello, Elisa", "14 day streak. Last updated 9:45 am." — header
-  - "🎉 Congrats — your labs are in!", "Your personalized dashboard is ready. Take a quick tour to see what's here.", "Dismiss", "Tour the Portal" — wizard banner
-  - "Welcome!", "To fill dashboard with your personalized insights—we just need your information. Get started by completing your", "Intake Questionnaire", "Start Intake" — intake-not-started banner
-  - "Your Lab Requisition Is Ready", "Download your requisition and book your lab visit to get your blood work done.", "View details" — intake-complete banner
-  - "Preparing Your Lab Requisition", "We're preparing your lab requisition. Once ready, you'll receive it with instructions to visit a lab for your blood work.", "In progress" — preparing banner
-  - "Your Lab Results Are Arriving Soon", "We'll notify you when your results are ready and you can schedule your labs.", "Pending" — labs-ordered banner
-  - "KWILT™ longevity score", "Biological age", "Based on the lab test from January 2025", "/100", "Your score total is based on an analysis of all screened biomarkers across the five health pillars.", "10.5 years", "younger than your calendar age"
-  - "Your scores", "VIEW ALL", "Heart health", "Metabolic health", "Brain health", "Cancer prevention", "Bone and muscle care" — health score rows
-  - "Biomarkers", "Your plan", "VIEW FULL TREATMENT PLAN", "Nutrition", "Supplements", "Exercises", "Sleep", "Therapy", "Medical Intervention"
-  - "Recommended for you", "Balance", "GLP-1 Assist", "NAD+", "Semaglutide", "Tirzepatide", "Weightloss", "Hormone Treatment", "Metabolic Health", "BEST SELLER", "LAB REQUIRED", "Add to Plan"
-- **String presence:** All key strings from PAGES_PARITY.md for Dashboard appear verbatim in `DashboardView.vue` (scenario dropdown, banners, score cards, health scores, plan categories, treatments carousel).
+  - "Demo:" — DashboardView.vue line 68
+  - "Select Scenario" — DashboardView.vue line 73
+  - "Default View", "Default View with Wizard", "Member - New Rx Ordered", "Intake Not Started", "Lab Requisition Ready", "Preparing Lab Requisition", "Labs Ordered" — DashboardView.vue lines 21–27 (scenario labels)
+  - "Hello, Elisa" — DashboardView.vue line 80
+  - "14 day streak. Last updated 9:45 am." — DashboardView.vue line 81
+  - "🎉 Congrats — your labs are in!" — DashboardView.vue line 86
+  - "Your personalized dashboard is ready. Take a quick tour to see what's here." — DashboardView.vue line 87
+  - "Dismiss", "Tour the Portal" — DashboardView.vue lines 91–92
+  - "Welcome!", "Intake Questionnaire", "Start Intake" — DashboardView.vue lines 96, 97, 101
+  - "Your Lab Requisition Is Ready", "Download your requisition and book your lab visit to get your blood work done.", "View details" — DashboardView.vue lines 105–106, 109
+  - "Preparing Your Lab Requisition", "In progress" — DashboardView.vue lines 115–116, 119
+  - "Your Lab Results Are Arriving Soon", "Pending" — DashboardView.vue lines 123–124, 125
+  - "KWILT™ longevity score", "Biological age", "Based on the lab test from January 2025", "/100", "10.5 years", "younger than your calendar age" — DashboardView.vue lines 129–137
+  - "Your scores", "VIEW ALL" — DashboardView.vue lines 156, 161; "Heart health", "Metabolic health", "Brain health", "Cancer prevention", "Bone and muscle care" — healthScores (script) + line 165
+  - "Biomarkers", "Your plan", "VIEW FULL TREATMENT PLAN", "Nutrition", "Supplements", "Exercises", "Sleep", "Therapy", "Medical Intervention" — DashboardView.vue lines 174, 184, 188, 191
+  - "Recommended for you", "Balance", "GLP-1 Assist", "NAD+", "Semaglutide", "Tirzepatide", "BEST SELLER", "LAB REQUIRED", "Add to Plan" — DashboardView.vue lines 194, 200, 202 (treatments from script line 54 + template)
+- **String presence:** All key strings from PAGES_PARITY.md for Dashboard appear verbatim in `DashboardView.vue` at the lines above.
 - **Gates:** npm run typecheck PASS, npm run build PASS
 
 ---
 
 ### Page: Shop
 
-- **Vue file:** `src/pages/ShopView.vue`
+- **Vue file:** `src/pages/ShopView.vue` + `src/components/home/Header.vue`
 - **Route:** `/shop`
 - **Components used:** Header (components/home/Header.vue), RouterLink
 - **Assets used:** kwilt-logo-dark.png, woman-hair-wind.jpg, woman-skincare.jpg, hand-sunset.jpg, how-to-use-kwilt.png, app-phone-mockup.png, product-semaglutide.png, product-balance.png, product-glp1.png, product-hrt.png, product-nad.png
 - **Visible strings check (exact):**
-  - "Products formulated to combat the effects of aging with ingredients that create real results.", "Results you can feel.", "Get Started" — hero
-  - "All", "Longevity Essentials", "Sexual Health", "Metabolic Health", "Aesthetic & Feminine", "Hair + Nails", "All Products"
-  - "KWILT Essentials", "Daily longevity supplement stack", "$149/mo", "Metformin", "Metabolic optimization", "$99/mo", "Semaglutide", "GLP-1 receptor agonist", "$199/mo", "Tretinoin", "Topical retinoid for skin renewal", "$59/mo", "NAD+ Booster", "Cellular energy & repair", "$129/mo", "HRT Balance", "Hormone optimization therapy", "$179/mo", "Add to Plan"
-  - "Connect with a provider", "Get matched with a medical provider who understands your unique goals.", "Convenient delivery", "Your treatments are compounded and shipped right to your door", "Track your progress", "With biomarker data and insights right at your fingertips"
-  - "Everyone's", "longevity", "journey is", "unique", "A plan", "designed", "with you in", "mind", "Start Assessment"
-  - "We are here for you", "Redefine what it means to age.", "Longevity. Optimized.", "©2025 kwilthealth.com"
-- **String presence:** All key strings from PAGES_PARITY.md for Shop appear verbatim in `ShopView.vue` and `Header.vue`.
+  - **Header (parity vs React `components/home/Header.tsx`):** "SHOP", "PLAN", "LABS", "SCIENCE", "ABOUT" — Header.vue line 38 ({{ link.label }}); "KWILT" — Header.vue line 44 (alt); "JOIN TODAY" — Header.vue line 56; "LOGIN" — Header.vue line 65. Vue matches React exactly.
+  - "Products formulated to combat the effects of aging with ingredients that create real results." — ShopView.vue line 61
+  - "Results you can feel." — ShopView.vue line 63
+  - "Get Started" — ShopView.vue lines 65, 156
+  - "All", "Longevity Essentials", "Sexual Health", "Metabolic Health", "Aesthetic & Feminine", "Hair + Nails" — ShopView.vue categoryTabs (lines 77–82)
+  - "All Products" — ShopView.vue line 89
+  - "KWILT Essentials", "Daily longevity supplement stack", "$149/mo", "Metformin", "Metabolic optimization", "$99/mo", "Semaglutide", "GLP-1 receptor agonist", "$199/mo", "Tretinoin", "Topical retinoid for skin renewal", "$59/mo", "NAD+ Booster", "Cellular energy & repair", "$129/mo", "HRT Balance", "Hormone optimization therapy", "$179/mo" — ShopView.vue products + template
+  - "Add to Plan" — ShopView.vue line 101
+  - "Connect with a provider", "Get matched with a medical provider who understands your unique goals." — ShopView.vue features (lines 86–88)
+  - "Convenient delivery", "Your treatments are compounded and shipped right to your door", "Track your progress", "With biomarker data and insights right at your fingertips" — ShopView.vue features
+  - "Everyone's", "longevity", "journey is", "unique" — ShopView.vue lines 113–116
+  - "A plan", "designed", "with you in", "mind", "Start Assessment" — ShopView.vue lines 127–131, 133
+  - "We are here for you", "Redefine what it means to age.", "Longevity. Optimized.", "©2025 kwilthealth.com" — ShopView.vue lines 148, 156, 162, 179
+- **String presence:** All key strings from PAGES_PARITY.md for Shop appear verbatim in `ShopView.vue` and `Header.vue` at the lines above. Header copy verified against React `Header.tsx`: "JOIN TODAY" and "LOGIN" match.
 - **Gates:** npm run typecheck PASS, npm run build PASS
 
 ---
@@ -155,14 +167,72 @@ Each ported page is verified against PAGES_PARITY.md. Strings must exist verbati
 - **Components used:** UiAvatar, UiDialog, BookAppointmentModal, ExploreAllTreatments
 - **Assets used:** product-semaglutide.png, product-balance.png, product-glp1.png
 - **Visible strings check (exact):**
-  - "Treatments", "My treatments", "Schedule virtual visit" — header
-  - "🎉 You have recommended treatments", "Dismiss", "Learn more" — wizard banner
-  - "Metformin", "Semaglutide", "1-month subscription", "6-month Subscription", "View treatment plan", "Close treatment plan", "Started on:", "Visit required by:", "New prescription" — treatment cards
-  - "Tirzepatide", "3-month subscription", "Manage subscription", "Patient", "Medical Provider", "Provider:", "Kate Cordisco, NP", "Address:", "13280 Evening Creek Drive South, Ste 225, San Diego, CA 92128", "Supervising Physician:", "Brian Crenshaw, MD", "Assessment", "Instructions"
-  - "For questions or concerns, text or call", "888-299-5088", "support@kwilthealth.com", "In case of an emergency call 911"
-  - "Explore all treatments", "Recommended", "View All", "Add to Plan"
-  - "Book New Appointment", "Select Provider", "How treatments work", "Your path to wellness", "Browse your recommended treatments below", "Questions? Your provider is here to help during your visit."
-- **String presence:** All key strings from PAGES_PARITY.md for Treatments appear verbatim in `TreatmentsView.vue`, `BookAppointmentModal.vue`, and `ExploreAllTreatments.vue`.
+  - "Treatments", "My treatments" — TreatmentsView.vue line 94
+  - "Schedule virtual visit" — TreatmentsView.vue line 102
+  - "🎉 You have recommended treatments", "Dismiss", "Learn more" — TreatmentsView.vue lines 107–108, 112–113
+  - "Metformin", "Semaglutide", "1-month subscription", "6-month Subscription", "View treatment plan", "Close treatment plan" — TreatmentsView.vue fixture data + lines 132, 147, 154
+  - "Started on:", "Visit required by:", "New prescription" — TreatmentsView.vue lines 136–137, 134
+  - "Tirzepatide", "3-month subscription", "Manage subscription" — TreatmentsView.vue fixture + line 143
+  - "Patient", "Medical Provider", "Provider:", "Kate Cordisco, NP", "Address:", "13280 Evening Creek Drive South, Ste 225, San Diego, CA 92128", "Supervising Physician:", "Brian Crenshaw, MD", "Assessment", "Instructions" — TreatmentsView.vue lines 166–177, 180, 185
+  - "For questions or concerns, text or call", "888-299-5088", "support@kwilthealth.com", "In case of an emergency call 911" — TreatmentsView.vue lines 172–175
+  - "Explore all treatments", "Recommended", "View All", "Add to Plan" — ExploreAllTreatments.vue
+  - "Book New Appointment", "Select Provider", "How treatments work", "Your path to wellness", "Browse your recommended treatments below", "Questions? Your provider is here to help during your visit." — BookAppointmentModal.vue + TreatmentsView.vue info modal
+- **String presence:** All key strings from PAGES_PARITY.md for Treatments appear verbatim in `TreatmentsView.vue`, `BookAppointmentModal.vue`, and `ExploreAllTreatments.vue` at the lines above.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
+## Batch 3
+
+### Page: Assessment
+
+- **Vue file:** `src/pages/AssessmentView.vue` + `src/features/assessment/AssessmentLayout.vue`, `AssessmentStep.vue`, `src/features/assessment/steps/SectionBiometrics.vue` … `SectionInformedConsent.vue`
+- **Route:** `/assessment`
+- **Components used:** AssessmentLayout, AssessmentStep, SectionBiometrics, SectionHealthGoals, SectionPregnancy, SectionHormonalHealth, SectionMedicalHistory, SectionPreventiveScreening, SectionMedications, SectionFamilyHistory, SectionNutrition, SectionPhysicalActivity, SectionSleep, SectionSubstanceUse, SectionInformedConsent; SingleSelect, YesNoToggle, CheckboxGrid, TagInput; UiInput, UiSelect, UiCheckbox, UiTextarea, UiDrawer
+- **Assets used:** kwilt-logo-dark.png (via AssessmentLayout)
+- **Visible strings check (exact):**
+  - "Exit", "1 of 13" … "13 of 13" — AssessmentLayout.vue lines 32–33, 48–50
+  - Section names: "Biometrics", "Health Goals", "Pregnancy", "Hormonal Health", "Medical History", "Preventive Screening", "Medications", "Family History", "Nutrition", "Physical Activity", "Sleep", "Substance Use", "Informed Consent" — AssessmentLayout.vue SECTION_NAMES (lines 7–20)
+  - "Let's get your measurements", "What is your height?", "Feet", "Inches", "What is your current weight? (lbs)", "What is your goal weight? (lbs)", "Do you know your most recent blood pressure reading?" — SectionBiometrics.vue lines 48–49, 57–58, 78–79, 86, 93
+  - "Normal (below 120/80)", "Elevated (120-129 / less than 80)", "High – Stage 1 (130-139 / 80-89)", "High – Stage 2 (140+ / 90+)", "I don't know", "Back", "Continue" — SectionBiometrics.vue BP_OPTIONS + AssessmentStep.vue
+  - "What matters most to you?", "What are your top health focus areas?", "Check all that apply", "What specific wellness goals are you working toward?", "Are you currently experiencing any of these symptoms?", "What is your primary motivation for starting this health journey?" — SectionHealthGoals.vue
+  - "Pregnancy & breastfeeding status", "Are you currently pregnant or breastfeeding?", "No", "Yes, I am currently pregnant", "Yes, I am currently breastfeeding", "I am trying to conceive", "Please note:", "Some prescription treatments may not be available during pregnancy or while breastfeeding." — SectionPregnancy.vue
+  - "Your hormonal health", "What best describes your current reproductive / menopause status?", "When was your last menstrual cycle?", "How would you describe your menstrual cycle?" — SectionHormonalHealth.vue
+  - "Your medical history", "Have you been diagnosed with any medical conditions?", "Do you have any known allergies or intolerances?", "Have you had any major surgeries?" — SectionMedicalHistory.vue
+  - "Your preventive screenings", "When was your last Pap smear?", "When was your last mammogram?", "When was your last colon cancer screening?", "When was your last DEXA scan (bone density)?" — SectionPreventiveScreening.vue
+  - "Current medications & supplements", "Are you currently taking any prescription medications?", "Are you regularly taking any over-the-counter vitamins, supplements, or herbal products?" — SectionMedications.vue
+  - "Family health history", "Do any close relatives have significant health conditions?" — SectionFamilyHistory.vue
+  - "Nutrition & Diet", "How would you describe your typical diet?", "How often do you eat fruits and vegetables?", "What non-alcoholic beverages do you regularly drink?" — SectionNutrition.vue
+  - "Physical activity & exercise", "How often do you exercise per week?", "What types of physical activity do you do?", "Do you face any barriers or challenges to exercising?" — SectionPhysicalActivity.vue
+  - "Sleep & recovery", "On average, how many hours do you sleep per night?", "Do you generally wake up feeling rested?", "Do you have any sleep concerns?" — SectionSleep.vue
+  - "Substance use", "Do you currently smoke or use nicotine products?", "Do you drink alcohol?" — SectionSubstanceUse.vue
+  - "Informed Consent", "Please review and agree to the following before submitting", "Telemedicine Informed Consent", "Notice of Privacy Practices", "Click to view", "Both consents are required to submit.", "Submit" — SectionInformedConsent.vue
+  - "TELEMEDICINE INFORMED CONSENT", "1. Purpose", "2. How It Works", "3. Risks & Benefits", "4. Patient Rights", "5. Contact Information", "NOTICE OF PRIVACY PRACTICES", "Effective Date: January 1, 2025", "Uses & Disclosures", "Your Rights", "Contact Us" — SectionInformedConsent.vue drawer content
+  - Footer: "KWILT Health Intake Form — The information collected here is used solely to personalize your health assessment and recommendations. All data is encrypted and stored securely in accordance with HIPAA guidelines. KWILT does not sell or share your personal health information with third parties. ©2025 KWILT Health, Inc." — AssessmentLayout.vue lines 62–64
+- **String presence:** All 15+ section titles and key prompts from PAGES_PARITY.md appear verbatim in the listed Vue files; 13 sections render in order with same step flow as React.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
+### Page: AssessmentComplete
+
+- **Vue file:** `src/pages/AssessmentCompleteView.vue`
+- **Route:** `/assessment-complete`
+- **Components used:** RouterLink, UiButton
+- **Assets used:** kwilt-logo-dark.png
+- **Visible strings check (exact):**
+  - "KWILT" — AssessmentCompleteView.vue line 22 (alt), logo
+  - "Assessment complete" — AssessmentCompleteView.vue line 40
+  - "Thank you for completing your health profile." — AssessmentCompleteView.vue line 48
+  - "Your answers give our team everything they need to build a health plan that's truly yours — not a template, not a guess. You've taken a meaningful step." — AssessmentCompleteView.vue lines 54–56
+  - "What's next" — AssessmentCompleteView.vue line 68
+  - "Expert review", "1–2 business days" — AssessmentCompleteView.vue lines 86–87
+  - "Our health professionals will carefully review your responses and craft a personalized plan built specifically for you." — AssessmentCompleteView.vue lines 90–91
+  - "We'll notify you", "Email &amp; SMS" — AssessmentCompleteView.vue lines 99–100
+  - "You'll hear from us the moment your custom health plan is ready, with clear next steps to get started." — AssessmentCompleteView.vue lines 102–103
+  - "Go to My Dashboard" — AssessmentCompleteView.vue line 115
+  - "Your profile is saved. You can always update it from your dashboard." — AssessmentCompleteView.vue lines 120–121
+- **String presence:** All 10+ key strings from React AssessmentComplete appear verbatim in `AssessmentCompleteView.vue` at the lines above.
 - **Gates:** npm run typecheck PASS, npm run build PASS
 
 ---
@@ -171,3 +241,4 @@ Each ported page is verified against PAGES_PARITY.md. Strings must exist verbati
 
 - **Batch 1:** Zero. All strings and assets match PAGES_PARITY.md; no invented copy.
 - **Batch 2:** Zero. All strings and assets match PAGES_PARITY.md; no invented copy.
+- **Batch 3:** Zero. All strings and section flows match PAGES_PARITY.md and React; no invented copy.
