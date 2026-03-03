@@ -34,7 +34,8 @@ Each ported page is verified against PAGES_PARITY.md. Strings must exist verbati
 - **Vue file:** `src/pages/LandingView.vue` + `src/features/landing/*.vue` (landing-nav, landing-hero, landing-tagline, landing-assess, landing-therapy-carousel, landing-how-it-works, landing-get-true-results, landing-pricing-and-footer, fade-in)
 - **Route:** `/`
 - **Components used:** LandingNav, LandingHero, LandingTagline, LandingAssess, LandingTherapyCarousel, LandingHowItWorks, LandingGetTrueResults, LandingPricingAndFooter, LandingFadeIn, RouterLink
-- **Assets used:** hero-rocky.jpg (video URL used for hero), kwilt-logo-dark.png, woman-hair-wind.jpg, therapy-card-1.jpg, therapy-card-2.jpg, therapy-card-3.jpg, therapy-card-4.jpg, results-ui-card.png, woman-swimwear.jpg, app-phone-mockup.png, woman-relaxing.jpg, surfer-sunset.png, story-card-1.jpg, story-card-2.jpg, story-card-3.jpg, story-card-4.jpg
+- **Hero media (parity audit):** React uses **`<video>`** (not img). Source: `https://cdn.prod.website-files.com/6830e308e57fd4713ea17bc9%2F6868777b35de09e3adcfdcf8_Kwilt_homepage_r1-transcode.mp4`. Vue `landing-hero.vue` uses the same `<video>` element and URL. (hero-rocky.jpg / hero-water.jpg are imported in React but not used in the hero.)
+- **Assets used:** kwilt-logo-dark.png, woman-hair-wind.jpg, therapy-card-1.jpg, therapy-card-2.jpg, therapy-card-3.jpg, therapy-card-4.jpg, results-ui-card.png, woman-swimwear.jpg, app-phone-mockup.png, woman-relaxing.jpg, surfer-sunset.png, story-card-1.jpg, story-card-2.jpg, story-card-3.jpg, story-card-4.jpg
 - **Visible strings check (exact):**
   - "KWILT", "™" — landing-nav.vue (lines 36, 44), landing-hero.vue (lines 34, 37), landing-pricing-and-footer.vue (line 160)
   - "Redefine your age." — landing-hero.vue line 37
@@ -104,6 +105,69 @@ Each ported page is verified against PAGES_PARITY.md. Strings must exist verbati
 
 ---
 
+## Batch 2
+
+### Page: Dashboard
+
+- **Vue file:** `src/pages/DashboardView.vue`
+- **Route:** `/dashboard`
+- **Components used:** UiDropdownMenu, (router-link), img
+- **Assets used:** longevity-card.jpg, biological-age-card.jpg, product-balance.png, product-glp1.png, product-semaglutide.png, refer-and-earn.png, how-to-use-kwilt.png
+- **Visible strings check (exact):**
+  - "Demo:", "Select Scenario", "Default View", "Default View with Wizard", "Member - New Rx Ordered", "Intake Not Started", "Lab Requisition Ready", "Preparing Lab Requisition", "Labs Ordered" — scenario dropdown
+  - "Hello, Elisa", "14 day streak. Last updated 9:45 am." — header
+  - "🎉 Congrats — your labs are in!", "Your personalized dashboard is ready. Take a quick tour to see what's here.", "Dismiss", "Tour the Portal" — wizard banner
+  - "Welcome!", "To fill dashboard with your personalized insights—we just need your information. Get started by completing your", "Intake Questionnaire", "Start Intake" — intake-not-started banner
+  - "Your Lab Requisition Is Ready", "Download your requisition and book your lab visit to get your blood work done.", "View details" — intake-complete banner
+  - "Preparing Your Lab Requisition", "We're preparing your lab requisition. Once ready, you'll receive it with instructions to visit a lab for your blood work.", "In progress" — preparing banner
+  - "Your Lab Results Are Arriving Soon", "We'll notify you when your results are ready and you can schedule your labs.", "Pending" — labs-ordered banner
+  - "KWILT™ longevity score", "Biological age", "Based on the lab test from January 2025", "/100", "Your score total is based on an analysis of all screened biomarkers across the five health pillars.", "10.5 years", "younger than your calendar age"
+  - "Your scores", "VIEW ALL", "Heart health", "Metabolic health", "Brain health", "Cancer prevention", "Bone and muscle care" — health score rows
+  - "Biomarkers", "Your plan", "VIEW FULL TREATMENT PLAN", "Nutrition", "Supplements", "Exercises", "Sleep", "Therapy", "Medical Intervention"
+  - "Recommended for you", "Balance", "GLP-1 Assist", "NAD+", "Semaglutide", "Tirzepatide", "Weightloss", "Hormone Treatment", "Metabolic Health", "BEST SELLER", "LAB REQUIRED", "Add to Plan"
+- **String presence:** All key strings from PAGES_PARITY.md for Dashboard appear verbatim in `DashboardView.vue` (scenario dropdown, banners, score cards, health scores, plan categories, treatments carousel).
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
+### Page: Shop
+
+- **Vue file:** `src/pages/ShopView.vue`
+- **Route:** `/shop`
+- **Components used:** Header (components/home/Header.vue), RouterLink
+- **Assets used:** kwilt-logo-dark.png, woman-hair-wind.jpg, woman-skincare.jpg, hand-sunset.jpg, how-to-use-kwilt.png, app-phone-mockup.png, product-semaglutide.png, product-balance.png, product-glp1.png, product-hrt.png, product-nad.png
+- **Visible strings check (exact):**
+  - "Products formulated to combat the effects of aging with ingredients that create real results.", "Results you can feel.", "Get Started" — hero
+  - "All", "Longevity Essentials", "Sexual Health", "Metabolic Health", "Aesthetic & Feminine", "Hair + Nails", "All Products"
+  - "KWILT Essentials", "Daily longevity supplement stack", "$149/mo", "Metformin", "Metabolic optimization", "$99/mo", "Semaglutide", "GLP-1 receptor agonist", "$199/mo", "Tretinoin", "Topical retinoid for skin renewal", "$59/mo", "NAD+ Booster", "Cellular energy & repair", "$129/mo", "HRT Balance", "Hormone optimization therapy", "$179/mo", "Add to Plan"
+  - "Connect with a provider", "Get matched with a medical provider who understands your unique goals.", "Convenient delivery", "Your treatments are compounded and shipped right to your door", "Track your progress", "With biomarker data and insights right at your fingertips"
+  - "Everyone's", "longevity", "journey is", "unique", "A plan", "designed", "with you in", "mind", "Start Assessment"
+  - "We are here for you", "Redefine what it means to age.", "Longevity. Optimized.", "©2025 kwilthealth.com"
+- **String presence:** All key strings from PAGES_PARITY.md for Shop appear verbatim in `ShopView.vue` and `Header.vue`.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
+### Page: Treatments
+
+- **Vue file:** `src/pages/TreatmentsView.vue`
+- **Route:** `/treatments`
+- **Components used:** UiAvatar, UiDialog, BookAppointmentModal, ExploreAllTreatments
+- **Assets used:** product-semaglutide.png, product-balance.png, product-glp1.png
+- **Visible strings check (exact):**
+  - "Treatments", "My treatments", "Schedule virtual visit" — header
+  - "🎉 You have recommended treatments", "Dismiss", "Learn more" — wizard banner
+  - "Metformin", "Semaglutide", "1-month subscription", "6-month Subscription", "View treatment plan", "Close treatment plan", "Started on:", "Visit required by:", "New prescription" — treatment cards
+  - "Tirzepatide", "3-month subscription", "Manage subscription", "Patient", "Medical Provider", "Provider:", "Kate Cordisco, NP", "Address:", "13280 Evening Creek Drive South, Ste 225, San Diego, CA 92128", "Supervising Physician:", "Brian Crenshaw, MD", "Assessment", "Instructions"
+  - "For questions or concerns, text or call", "888-299-5088", "support@kwilthealth.com", "In case of an emergency call 911"
+  - "Explore all treatments", "Recommended", "View All", "Add to Plan"
+  - "Book New Appointment", "Select Provider", "How treatments work", "Your path to wellness", "Browse your recommended treatments below", "Questions? Your provider is here to help during your visit."
+- **String presence:** All key strings from PAGES_PARITY.md for Treatments appear verbatim in `TreatmentsView.vue`, `BookAppointmentModal.vue`, and `ExploreAllTreatments.vue`.
+- **Gates:** npm run typecheck PASS, npm run build PASS
+
+---
+
 ## Parity exceptions
 
 - **Batch 1:** Zero. All strings and assets match PAGES_PARITY.md; no invented copy.
+- **Batch 2:** Zero. All strings and assets match PAGES_PARITY.md; no invented copy.
