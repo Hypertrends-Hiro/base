@@ -1,16 +1,23 @@
 <script setup lang="ts">
-import UiButton from '@/components/ui/button.vue'
-import UiCard from '@/components/ui/card.vue'
-import UiInput from '@/components/ui/input.vue'
+import LandingNav from '@/features/landing/landing-nav.vue'
+import LandingHero from '@/features/landing/landing-hero.vue'
+import LandingTagline from '@/features/landing/landing-tagline.vue'
+import LandingAssess from '@/features/landing/landing-assess.vue'
+import LandingTherapyCarousel from '@/features/landing/landing-therapy-carousel.vue'
+import LandingHowItWorks from '@/features/landing/landing-how-it-works.vue'
+import LandingGetTrueResults from '@/features/landing/landing-get-true-results.vue'
+import LandingPricingAndFooter from '@/features/landing/landing-pricing-and-footer.vue'
 </script>
 
 <template>
-  <div class="p-6 space-y-6">
-    <h1 class="font-heading text-2xl">Landing (placeholder)</h1>
-    <UiCard class="max-w-md">
-      <template #header><span class="font-semibold">Welcome</span></template>
-      <UiInput placeholder="Email" class="mb-2" />
-      <UiButton class="w-full">Get Started</UiButton>
-    </UiCard>
+  <div class="min-h-screen bg-background font-body overflow-x-hidden">
+    <LandingNav />
+    <LandingHero />
+    <LandingTagline />
+    <LandingAssess />
+    <LandingTherapyCarousel />
+    <LandingHowItWorks />
+    <LandingGetTrueResults />
+    <LandingPricingAndFooter />
   </div>
 </template>
