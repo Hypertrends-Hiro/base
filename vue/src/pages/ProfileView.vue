@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import UiCollapsible from '@/components/ui/collapsible.vue'
+import UiDialog from '@/components/ui/dialog.vue'
+import UiInput from '@/components/ui/input.vue'
+import { cn } from '@/lib/utils'
 
 const rightColRef = ref<HTMLElement | null>(null)
 const intakeSectionRef = ref<HTMLElement | null>(null)
@@ -108,9 +111,50 @@ const intakeData: Record<string, { label: string; value: string }[]> = {
 
 const activeIntake = ref(intakeCategories[0]!)
 const currentIntakeFields = computed(() => intakeData[activeIntake.value] ?? [])
+
+// Change password (button + dialog like React ChangePasswordRow)
 const changePasswordOpen = ref(false)
+const newPassword = ref('')
+const confirmPassword = ref('')
+const showNewPassword = ref(false)
+const showConfirmPassword = ref(false)
+const changePasswordSuccess = ref(false)
+const passwordsMatch = computed(() => newPassword.value.length > 0 && newPassword.value === confirmPassword.value)
+function submitChangePassword() {
+  changePasswordSuccess.value = true
+  newPassword.value = ''
+  confirmPassword.value = ''
+}
+function closeChangePassword() {
+  changePasswordOpen.value = false
+  changePasswordSuccess.value = false
+  showNewPassword.value = false
+  showConfirmPassword.value = false
+}
+
+// Notification preferences (collapsible with On/Off rows like React)
 const notifOpen = ref(false)
+const notifPrefs = ref<Record<string, boolean>>({
+  Newsletters: true,
+  'Email notifications': true,
+  'SMS notifications': true,
+})
+function setNotifPref(label: string, on: boolean) {
+  notifPrefs.value = { ...notifPrefs.value, [label]: on }
+}
+
+// Delete account (button + dialog like React DeleteAccountRow)
 const deleteAccountOpen = ref(false)
+const deleteAcknowledged = ref(false)
+const deleteSuccess = ref(false)
+function closeDeleteAccount() {
+  deleteAccountOpen.value = false
+  deleteAcknowledged.value = false
+  deleteSuccess.value = false
+}
+function confirmDelete() {
+  deleteSuccess.value = true
+}
 </script>
 
 <template>
@@ -161,17 +205,55 @@ const deleteAccountOpen = ref(false)
             </div>
           </div>
           <div class="mt-2">
-            <UiCollapsible v-model="changePasswordOpen">
-              <template #trigger>
-                <div class="flex w-full items-center justify-between py-4 border-b border-border text-left cursor-pointer">
-                  <span class="text-xs font-medium tracking-[0.15em] text-foreground">CHANGE PASSWORD</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 text-muted-foreground transition-transform" :class="changePasswordOpen && 'rotate-90'"><path d="m9 18 6-6-6-6" /></svg>
+            <!-- Change password: button opens dialog (parity with React ChangePasswordRow) -->
+            <button
+              type="button"
+              class="flex w-full items-center justify-between py-4 border-b border-border text-left"
+              @click="changePasswordOpen = true"
+            >
+              <span class="text-xs font-medium tracking-[0.15em] text-foreground">CHANGE PASSWORD</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 text-muted-foreground"><path d="m9 18 6-6-6-6" /></svg>
+            </button>
+            <UiDialog :open="changePasswordOpen" @update:open="(v: boolean) => { changePasswordOpen = v; if (!v) closeChangePassword() }" class="sm:max-w-md p-6" :style="{ background: '#F5F1F0' }">
+              <div v-if="!changePasswordSuccess">
+                <div class="flex items-center gap-2 mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5 text-foreground"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                  <h2 class="font-heading text-xl font-medium">Change Password</h2>
                 </div>
-              </template>
-              <div class="py-3 text-sm text-muted-foreground">
-                <p class="text-sm">Content coming soon.</p>
+                <p class="text-sm font-light text-muted-foreground mb-6">Enter a new password below to change your password</p>
+                <div class="space-y-5">
+                  <div>
+                    <label class="text-sm font-medium mb-1.5 block">New Password</label>
+                    <div class="relative">
+                      <UiInput v-model="newPassword" :type="showNewPassword ? 'text' : 'password'" placeholder="Enter your new password" class="bg-background border-border/60 pr-16" />
+                      <div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                        <span v-if="newPassword.length >= 6" class="text-green-600">✓</span>
+                        <button type="button" class="text-muted-foreground hover:text-foreground" @click="showNewPassword = !showNewPassword">{{ showNewPassword ? 'Hide' : 'Show' }}</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="text-sm font-medium mb-1.5 block">Confirm Password</label>
+                    <div class="relative">
+                      <UiInput v-model="confirmPassword" :type="showConfirmPassword ? 'text' : 'password'" placeholder="Confirm Password" class="bg-background border-border/60 pr-16" />
+                      <div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                        <span v-if="passwordsMatch" class="text-green-600">✓</span>
+                        <button type="button" class="text-muted-foreground hover:text-foreground" @click="showConfirmPassword = !showConfirmPassword">{{ showConfirmPassword ? 'Hide' : 'Show' }}</button>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="button" :disabled="!passwordsMatch" class="w-full rounded-md bg-foreground py-3 text-sm font-medium text-background hover:bg-foreground/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" @click="submitChangePassword">Change Password</button>
+                  <p class="text-xs font-light text-muted-foreground text-center">By continuing, you are to <span class="underline">Kwilt's Terms of Service</span> and <span class="underline">Privacy Policy</span></p>
+                </div>
               </div>
-            </UiCollapsible>
+              <div v-else>
+                <h2 class="font-heading text-xl font-medium mb-2">Reset Password</h2>
+                <p class="text-sm font-light text-muted-foreground mb-6">Your password has been successfully changed, please use your new password to log in.</p>
+                <button type="button" class="w-full rounded-md bg-foreground py-3 text-sm font-medium text-background hover:bg-foreground/90 transition-colors" @click="closeChangePassword(); changePasswordOpen = false">Close</button>
+              </div>
+            </UiDialog>
+
+            <!-- Notification preferences: collapsible with On/Off rows (parity with React CollapsibleRow + NotificationPrefRow) -->
             <UiCollapsible v-model="notifOpen">
               <template #trigger>
                 <div class="flex w-full items-center justify-between py-4 border-b border-border text-left cursor-pointer">
@@ -179,21 +261,48 @@ const deleteAccountOpen = ref(false)
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 text-muted-foreground transition-transform" :class="notifOpen && 'rotate-90'"><path d="m9 18 6-6-6-6" /></svg>
                 </div>
               </template>
-              <div class="py-3 text-sm text-muted-foreground">
-                <p class="text-sm">Content coming soon.</p>
-              </div>
-            </UiCollapsible>
-            <UiCollapsible v-model="deleteAccountOpen">
-              <template #trigger>
-                <div class="flex w-full items-center justify-between py-4 border-b border-border text-left cursor-pointer">
-                  <span class="text-xs font-medium tracking-[0.15em] text-foreground">DELETE ACCOUNT</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 text-muted-foreground transition-transform" :class="deleteAccountOpen && 'rotate-90'"><path d="m9 18 6-6-6-6" /></svg>
+              <div class="space-y-0">
+                <div v-for="pref in ['Newsletters', 'Email notifications', 'SMS notifications']" :key="pref" class="flex items-center justify-between py-4 border-b border-border">
+                  <span class="text-sm text-foreground">{{ pref }}</span>
+                  <div class="flex items-center gap-4">
+                    <button type="button" class="flex items-center gap-1.5" @click="setNotifPref(pref, true)">
+                      <span :class="cn('h-3 w-3 rounded-full border-2', notifPrefs[pref] ? 'bg-primary border-primary' : 'border-muted-foreground')" />
+                      <span class="text-sm text-foreground">On</span>
+                    </button>
+                    <button type="button" class="flex items-center gap-1.5" @click="setNotifPref(pref, false)">
+                      <span :class="cn('h-3 w-3 rounded-full border-2', !notifPrefs[pref] ? 'bg-primary border-primary' : 'border-muted-foreground')" />
+                      <span class="text-sm text-foreground">Off</span>
+                    </button>
+                  </div>
                 </div>
-              </template>
-              <div class="py-3 text-sm text-muted-foreground">
-                <p class="text-sm">Content coming soon.</p>
               </div>
             </UiCollapsible>
+
+            <!-- Delete account: button opens dialog (parity with React DeleteAccountRow) -->
+            <button
+              type="button"
+              class="flex w-full items-center justify-between py-4 border-b border-border text-left"
+              @click="deleteAccountOpen = true"
+            >
+              <span class="text-xs font-medium tracking-[0.15em] text-foreground">DELETE ACCOUNT</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4 text-muted-foreground"><path d="m9 18 6-6-6-6" /></svg>
+            </button>
+            <UiDialog :open="deleteAccountOpen" @update:open="(v: boolean) => { deleteAccountOpen = v; if (!v) closeDeleteAccount() }" class="sm:max-w-sm p-6">
+              <div v-if="!deleteSuccess" class="text-center">
+                <h2 class="font-heading text-xl font-medium mb-2">Delete Account</h2>
+                <p class="text-sm font-light text-muted-foreground mb-6">Are you sure you want to delete<br />'egeorge@gmail.com' from kwilt?</p>
+                <div class="flex items-start gap-2 text-left mb-6">
+                  <input v-model="deleteAcknowledged" type="checkbox" class="mt-0.5 h-4 w-4 rounded border-border accent-primary" />
+                  <span class="text-xs font-light text-muted-foreground leading-relaxed">I acknowledge this is an irreversible action and that this account will be permanently deleted upon removal</span>
+                </div>
+                <button type="button" :disabled="!deleteAcknowledged" class="w-full rounded-md bg-destructive py-3 text-sm font-medium text-destructive-foreground hover:bg-destructive/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" @click="confirmDelete">Delete</button>
+              </div>
+              <div v-else class="text-center">
+                <h2 class="font-heading text-xl font-medium mb-2">Success</h2>
+                <p class="text-sm font-light text-muted-foreground mb-6">You have successfully deleted your account.</p>
+                <button type="button" class="w-full rounded-md bg-foreground py-3 text-sm font-medium text-background hover:bg-foreground/90 transition-colors" @click="closeDeleteAccount(); deleteAccountOpen = false">Close</button>
+              </div>
+            </UiDialog>
           </div>
         </section>
 
